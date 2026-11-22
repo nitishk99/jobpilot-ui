@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AtSign, CheckCircle2, LogOut, ShieldCheck, UserRound } from 'lucide-react';
+import { CheckCircle2, LogOut, ShieldCheck } from 'lucide-react';
 import { PageHeader } from '../../components/common/PageHeader';
 import { getErrorMessage } from '../../api/errors';
 import { initials } from '../../utils/format';
@@ -21,16 +21,11 @@ export function AccountPage() {
   });
   const name = user?.displayName || 'JobPilot user';
   const email = user?.email || 'Not available';
-  const connectedEmail = user?.connectedAccountEmail || 'Connection details not returned by the auth API';
-  const connectionStatus = user?.connectedAccountStatus?.toLowerCase();
-  const isConnected = Boolean(user?.connectedAccountEmail)
-    || connectionStatus === 'connected'
-    || connectionStatus === 'active';
   const profileImage = user?.profilePicture;
 
   return (
     <div className="page-stack">
-      <PageHeader eyebrow="WORKSPACE SETTINGS" title="Account" description="Connection, privacy, and session controls." />
+      <PageHeader eyebrow="WORKSPACE SETTINGS" title="Account" description="Manage your profile and session." />
       <div className="account-layout">
         <section className="panel account-panel">
           <div className="account-profile">
@@ -39,23 +34,6 @@ export function AccountPage() {
             </span>
             <div><h2>{name}</h2><p>{email}</p></div>
             <span className="status-badge status-offer"><CheckCircle2 size={12} /> Signed in</span>
-          </div>
-          <div className="account-divider" />
-          <div className="account-detail-row">
-            <span className="account-detail-icon"><UserRound size={17} /></span>
-            <div><strong>Google account</strong><p>{email}</p></div>
-          </div>
-          <div className="account-detail-row">
-            <span className="account-detail-icon"><AtSign size={17} /></span>
-            <div><strong>Connected Gmail</strong><p>{connectedEmail}</p></div>
-            <span className="connected-label">
-              <span className={isConnected ? '' : 'disconnected'} />
-              {isConnected ? 'Connected account' : 'Status unavailable'}
-            </span>
-          </div>
-          <div className="account-detail-row">
-            <span className="account-detail-icon"><ShieldCheck size={17} /></span>
-            <div><strong>Session security</strong><p>JobPilot uses a secure HTTP-only session cookie.</p></div>
           </div>
           <div className="account-divider" />
           <div className="account-signout">

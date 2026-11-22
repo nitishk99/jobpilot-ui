@@ -34,6 +34,17 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe('account sign out', () => {
+  it('shows the signed-in profile and sign-out action without account detail rows', () => {
+    renderAccount();
+
+    expect(screen.getByText('Alex')).toBeTruthy();
+    expect(screen.getByText('alex@example.com')).toBeTruthy();
+    expect(screen.getByRole('button', { name: /sign out/i })).toBeTruthy();
+    expect(screen.queryByText('Google account')).toBeNull();
+    expect(screen.queryByText('Connected Gmail')).toBeNull();
+    expect(screen.queryByText('Session security')).toBeNull();
+  });
+
   it('clears cached data and goes to login after the backend signs out', async () => {
     mockLogout.mockResolvedValue(undefined);
     const queryClient = renderAccount();
